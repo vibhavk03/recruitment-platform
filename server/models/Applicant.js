@@ -23,11 +23,6 @@ const applicantSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    resumeUrl: {
-      type: String,
-      required: false,
-      trim: true,
-    },
     mobileNumber: {
       type: String,
       required: true,
@@ -41,14 +36,26 @@ const applicantSchema = new mongoose.Schema(
       trim: true,
       required: false,
     },
-    skills: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
+    skills: {
+      type: [
+        {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
+      ],
+      required: true,
+      validate: {
+        validator: (arr) => arr.length > 0,
+        message: 'At least one skill is required',
       },
-    ],
+    },
+    resumeUrl: {
+      type: String,
+      required: false,
+      trim: true,
+    },
     currentRole: {
       type: String,
       required: true,
@@ -56,12 +63,14 @@ const applicantSchema = new mongoose.Schema(
       lowercase: true,
     },
     currentCompensation: {
-      type: Number,
+      type: String,
       required: true,
     },
-    preferredCompensation: {
-      type: Number,
+    currentLocation: {
+      type: String,
       required: true,
+      trim: true,
+      lowercase: true,
     },
     preferredRole: {
       type: String,
@@ -69,14 +78,25 @@ const applicantSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
-    preferredLocation: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
+    preferredCompensation: {
+      type: String,
+      required: true,
+    },
+    preferredLocation: {
+      type: [
+        {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
+      ],
+      required: true,
+      validate: {
+        validator: (arr) => arr.length > 0,
+        message: 'At least one location is required',
       },
-    ],
+    },
   },
   {
     timestamps: true,
