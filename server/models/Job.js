@@ -58,14 +58,14 @@ const jobSchema = new mongoose.Schema(
     },
     recruiter: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Recruiter',
+      ref: 'recruiter',
       required: true,
     },
     applicants: [
       {
         applicant: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Applicant',
+          ref: 'applicant',
           required: true,
         },
         status: {
