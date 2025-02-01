@@ -12,19 +12,20 @@ const jobSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    location: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
-      },
-    ],
-    status: {
-      type: String,
+    location: {
+      type: [
+        {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
+      ],
       required: true,
-      enum: ['Open', 'Closed', 'On Hold'],
-      default: 'Open',
+      validate: {
+        validator: (arr) => arr.length > 0,
+        message: 'At least one location is required',
+      },
     },
     type: {
       type: String,
@@ -34,14 +35,27 @@ const jobSchema = new mongoose.Schema(
         message: `{VALUE} is not supported, please try one of these values ['Full-Time', 'Part-Time', 'Contract', 'Internship']`,
       },
     },
-    skillsRequired: [
-      {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
+    skillsRequired: {
+      type: [
+        {
+          type: String,
+          required: true,
+          trim: true,
+          lowercase: true,
+        },
+      ],
+      required: true,
+      validate: {
+        validator: (arr) => arr.length > 0,
+        message: 'At least one skill is required',
       },
-    ],
+    },
+    status: {
+      type: String,
+      required: true,
+      enum: ['Open', 'Closed', 'On Hold'],
+      default: 'Open',
+    },
     recruiter: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Recruiter',
