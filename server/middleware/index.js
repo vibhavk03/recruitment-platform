@@ -21,9 +21,9 @@ const requireRecruiter = (req, res, next) => {
         const recruiter = await Recruiter.findById(decodedToken.id);
         if (!recruiter) {
           /* if recruiter not found */
-          res.status(401).json({
+          return res.status(401).json({
             message: `error in accessing this route, please login`,
-            error: `${err.message}`,
+            error: 'recruiter login required',
           });
         }
         res.locals.recruiter = recruiter;
@@ -54,9 +54,9 @@ const requireApplicant = (req, res, next) => {
         const applicant = await Applicant.findById(decodedToken.id);
         if (!applicant) {
           /* if applicant not found */
-          res.status(401).json({
+          return res.status(401).json({
             message: `error in accessing this route, please login`,
-            error: `${err.message}`,
+            error: 'applicant login required',
           });
         }
         res.locals.applicant = applicant;
