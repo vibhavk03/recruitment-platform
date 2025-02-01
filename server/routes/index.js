@@ -3,13 +3,10 @@ const router = express.Router();
 
 const recruitersRouter = require('./recruitersRouter');
 const applicantsRouter = require('./applicantsRouter');
-// const jobsRouter = require('./jobsRouter');
-
-/* require doctor is authentication middlware */
-// const { requireRecruiter } = require('../middleware');
+const jobsRouter = require('./jobsRouter');
 
 router.use('/recruiters', recruitersRouter);
 router.use('/applicants', applicantsRouter);
-// router.use('/jobs', jobsRouter);
+router.use('/jobs', jobsRouter);
 
 module.exports = router;
