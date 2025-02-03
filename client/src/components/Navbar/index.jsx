@@ -69,7 +69,15 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
       >
         <StyledNavLink
           sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-          to="/"
+          to={
+            !role
+              ? '/'
+              : role === 'applicant'
+              ? '/applicant-dashboard'
+              : role === 'recruiter'
+              ? '/recruiter-dashboard'
+              : '/'
+          }
         >
           Home
         </StyledNavLink>
@@ -102,8 +110,16 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
           <ListItem>
             <StyledNavLink
               sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-              to="/"
               onClick={handleDrawerToggle}
+              to={
+                !role
+                  ? '/'
+                  : role === 'applicant'
+                  ? '/applicant-dashboard'
+                  : role === 'recruiter'
+                  ? '/recruiter-dashboard'
+                  : '/'
+              }
             >
               Home
             </StyledNavLink>
