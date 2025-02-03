@@ -6,7 +6,9 @@ import Navbar from './components/Navbar';
 import Register from './scenes/RegisterPage';
 import Login from './scenes/LoginPage';
 import ApplicantDashboard from './scenes/ApplicantDashboard';
+import RecruiterDashboard from './scenes/RecruiterDashboard';
 import AppliedJobs from './scenes/AppliedJobs';
+import CreatedJobs from './scenes/CreatedJobs';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -36,11 +38,18 @@ function App() {
             <Routes>
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
+
               <Route
                 path="/applicant-dashboard"
                 element={<ApplicantDashboard />}
               />
               <Route path="/applied-jobs" element={<AppliedJobs />} />
+
+              <Route
+                path="/recruiter-dashboard"
+                element={<RecruiterDashboard />}
+              />
+              <Route path="/created-jobs" element={<CreatedJobs />} />
             </Routes>
           </Box>
         </ThemeProvider>
