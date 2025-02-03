@@ -2,9 +2,11 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const jobsApi = createApi({
   reducerPath: 'jobsApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/applicants/' }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:8000/jobs/',
+    credentials: 'include',
+  }),
   tagTypes: ['Job', 'Applicant'],
-
   endpoints: (builder) => ({
     /* below endpoints used for applicants */
     /* fetch all jobs for applicants */
