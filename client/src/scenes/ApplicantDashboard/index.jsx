@@ -91,9 +91,17 @@ const ApplicantDashboard = () => {
               variant="contained"
               color="primary"
               onClick={() => handleApply(job._id)}
-              disabled={appliedJobs.has(job._id) || job.status === 'On Hold'}
+              disabled={
+                appliedJobs.has(job._id) ||
+                job.status === 'On Hold' ||
+                job.status === 'Closed'
+              }
               tabIndex={
-                appliedJobs.has(job._id) || job.status === 'On Hold' ? -1 : 0
+                appliedJobs.has(job._id) ||
+                job.status === 'On Hold' ||
+                job.status === 'Closed'
+                  ? -1
+                  : 0
               }
             >
               {appliedJobs.has(job._id) ? 'Applied' : 'Apply'}
