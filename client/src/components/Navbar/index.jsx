@@ -7,13 +7,17 @@ import {
   ListItem,
   useMediaQuery,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import StyledNavLink from '../StyledNavLink';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUser } from '../../state/authSlice';
+import { useLogoutRecruiterMutation } from '../../state/recruitersApi';
+import { useLogoutApplicantMutation } from '../../state/applicantsApi';
 
 function Navbar({ isDarkMode, toggleDarkMode }) {
   const { palette } = useTheme();
@@ -21,6 +25,25 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const handleDrawerToggle = () => {
     setIsDrawerOpen((prev) => !prev);
+  };
+  const role = useSelector((state) => state?.auth?.role);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [logoutApplicant] = useLogoutApplicantMutation();
+  const [logoutRecruiter] = useLogoutRecruiterMutation();
+
+  const handleLogout = async () => {
+    try {
+      if (role === 'applicant') {
+        await logoutApplicant().unwrap();
+      } else if (role === 'recruiter') {
+        await logoutRecruiter().unwrap();
+      }
+      dispatch(clearUser());
+      navigate('/');
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
   };
 
   return (
@@ -50,18 +73,14 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
         >
           Home
         </StyledNavLink>
-        <StyledNavLink
-          sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-          to="/compare"
-        >
-          Compare
-        </StyledNavLink>
-        <StyledNavLink
-          sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-          to="/favourites"
-        >
-          Favourites
-        </StyledNavLink>
+        {role && (
+          <StyledNavLink
+            sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
+            to={role === 'applicant' ? '/applied-jobs' : '/created-jobs'}
+          >
+            {role === 'applicant' ? 'Applied Jobs' : 'Created Jobs'}
+          </StyledNavLink>
+        )}
       </Box>
 
       {/* hamburger menu for small screens */}
@@ -89,25 +108,29 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
               Home
             </StyledNavLink>
           </ListItem>
-
-          <ListItem>
-            <StyledNavLink
-              sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-              to="/compare"
-              onClick={handleDrawerToggle}
-            >
-              Compare
-            </StyledNavLink>
-          </ListItem>
-          <ListItem>
-            <StyledNavLink
-              sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
-              to="/favourites"
-              onClick={handleDrawerToggle}
-            >
-              Favourites
-            </StyledNavLink>
-          </ListItem>
+          {role && (
+            <ListItem>
+              <StyledNavLink
+                sx={{ marginRight: isSmallScreen ? '0px' : '10px' }}
+                to={role === 'applicant' ? '/applied-jobs' : '/created-jobs'}
+              >
+                {role === 'applicant' ? 'Applied Jobs' : 'Created Jobs'}
+              </StyledNavLink>
+            </ListItem>
+          )}
+          {role && (
+            <ListItem>
+              <StyledNavLink
+                to="/"
+                onClick={handleLogout}
+                sx={{
+                  marginRight: isSmallScreen ? '0px' : '10px',
+                }}
+              >
+                Logout
+              </StyledNavLink>
+            </ListItem>
+          )}
         </List>
       </Drawer>
 
@@ -146,6 +169,25 @@ function Navbar({ isDarkMode, toggleDarkMode }) {
           alignItems: 'center',
         }}
       >
+        {role && !isSmallScreen && (
+          <button
+            style={{
+              border: 'none',
+              background: 'transparent',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '22px',
+              width: '22px',
+              margin: '0px 30px 0px 15px',
+            }}
+            onClick={handleLogout}
+            aria-label="Logout"
+          >
+            Logout
+          </button>
+        )}
         <button
           style={{
             border: 'none',
