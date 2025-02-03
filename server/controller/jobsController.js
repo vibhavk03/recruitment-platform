@@ -80,7 +80,12 @@ module.exports = {
   },
   getAllJobs: async function (req, res) {
     try {
-      const jobs = await Job.find().populate('recruiter', 'name organisation');
+      const jobs = await Job.find()
+        .populate('recruiter', 'name organisation')
+        .populate(
+          'applicants.applicant',
+          'email name mobileNumber profileSummary skills resumeUrl currentRole currentCompensation currentLocation preferredRole preferredCompensation preferredLocation'
+        );
       res.status(200).json({
         message: 'All jobs fetched successfully',
         jobs,
