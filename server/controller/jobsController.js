@@ -144,7 +144,12 @@ module.exports = {
       /* fetch jobs where the applicant has applied */
       const jobs = await Job.find({
         'applicants.applicant': applicantId,
-      }).populate('recruiter', 'name email organisation');
+      })
+        .populate('recruiter', 'name email organisation')
+        .populate(
+          'applicants.applicant',
+          'email name mobileNumber profileSummary skills resumeUrl currentRole currentCompensation currentLocation preferredRole preferredCompensation preferredLocation'
+        );
 
       res.status(200).json({
         message: 'Applied jobs fetched successfully',
