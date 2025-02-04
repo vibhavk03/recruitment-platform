@@ -85,7 +85,10 @@ module.exports = {
         .populate(
           'applicants.applicant',
           'email name mobileNumber profileSummary skills resumeUrl currentRole currentCompensation currentLocation preferredRole preferredCompensation preferredLocation'
-        );
+        )
+        .sort({
+          createdAt: -1,
+        });
       res.status(200).json({
         message: 'All jobs fetched successfully',
         jobs,
@@ -149,7 +152,10 @@ module.exports = {
         .populate(
           'applicants.applicant',
           'email name mobileNumber profileSummary skills resumeUrl currentRole currentCompensation currentLocation preferredRole preferredCompensation preferredLocation'
-        );
+        )
+        .sort({
+          updatedAt: -1,
+        });
 
       res.status(200).json({
         message: 'Applied jobs fetched successfully',
