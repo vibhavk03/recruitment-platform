@@ -9,6 +9,7 @@ import ApplicantDashboard from './scenes/ApplicantDashboard';
 import RecruiterDashboard from './scenes/RecruiterDashboard';
 import AppliedJobs from './scenes/AppliedJobs';
 import CreatedJobs from './scenes/CreatedJobs';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
@@ -39,17 +40,45 @@ function App() {
               <Route path="/" element={<Login />} />
               <Route path="/register" element={<Register />} />
 
+              {/* applicant routes */}
               <Route
                 path="/applicant-dashboard"
-                element={<ApplicantDashboard />}
+                element={
+                  <ProtectedRoute
+                    element={<ApplicantDashboard />}
+                    allowedRoles={['applicant']}
+                  />
+                }
               />
-              <Route path="/applied-jobs" element={<AppliedJobs />} />
+              <Route
+                path="/applied-jobs"
+                element={
+                  <ProtectedRoute
+                    element={<AppliedJobs />}
+                    allowedRoles={['applicant']}
+                  />
+                }
+              />
 
+              {/* recruiter routes */}
               <Route
                 path="/recruiter-dashboard"
-                element={<RecruiterDashboard />}
+                element={
+                  <ProtectedRoute
+                    element={<RecruiterDashboard />}
+                    allowedRoles={['recruiter']}
+                  />
+                }
               />
-              <Route path="/created-jobs" element={<CreatedJobs />} />
+              <Route
+                path="/created-jobs"
+                element={
+                  <ProtectedRoute
+                    element={<CreatedJobs />}
+                    allowedRoles={['recruiter']}
+                  />
+                }
+              />
             </Routes>
           </Box>
         </ThemeProvider>
